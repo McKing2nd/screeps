@@ -38,11 +38,11 @@ module.exports.loop = function () {
     var miners = _.filter(creepsInRoom, (creep) => creep.memory.role == 'miner');
     var carriers = _.filter(creepsInRoom, (creep) => creep.memory.role == 'carrier');
     
-    var claimersE98S32 = _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer' && creep.memory.target == 'E98S32');
-    var harvestersE98S32 = _.filter(Game.creeps, (creep) => creep.memory.role == 'longDistanceHarvester' && creep.memory.target == 'E98S32');
+    //var claimersE98S32 = _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer' && creep.memory.target == 'E98S32');
+    //var harvestersE98S32 = _.filter(Game.creeps, (creep) => creep.memory.role == 'longDistanceHarvester' && creep.memory.target == 'E98S32');
 
-    var harvestersE97S33 = _.filter(Game.creeps, (creep) => creep.memory.role == 'longDistanceHarvester' && creep.memory.target == 'E97S33');
-    var claimersE97S33 =  _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer' && creep.memory.target == 'E97S33');
+    //var harvestersE97S33 = _.filter(Game.creeps, (creep) => creep.memory.role == 'longDistanceHarvester' && creep.memory.target == 'E97S33');
+    //var claimersE97S33 =  _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer' && creep.memory.target == 'E97S33');
     
     var energy = spawn.room.energyCapacityAvailable;
     var newName = undefined;
@@ -87,10 +87,10 @@ module.exports.loop = function () {
             }
         } else if (upgraders.length < spawn.memory.upgraders) { // TODO: Build something so we can make it easier to Push levels.
             newName = spawn.createUpgrader(energy, HOME);
-        } else if (harvestersE98S32.length < 0) {
-            newName = spawn.createLongDistanceHarvester(energy, 5, HOME, 'E98S32', 0);
-        } else if (harvestersE97S33.length < 3) {
-            newName = spawn.createLongDistanceHarvester(energy, 5, HOME, 'E97S33', -1);
+        // } else if (harvestersE98S32.length < 0) {
+        //    newName = spawn.createLongDistanceHarvester(energy, 5, HOME, 'E98S32', 0);
+        //} else if (harvestersE97S33.length < 3) {
+        //    newName = spawn.createLongDistanceHarvester(energy, 5, HOME, 'E97S33', -1);
         } 
 
         if (spawn.memory.externalRooms != undefined && spawn.memory.externalRooms.length > 0 && newName == undefined) {
