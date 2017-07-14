@@ -16,7 +16,7 @@ Creep.prototype.roles = {
 
 Creep.prototype.getEnergy = function() {
     let container = this.pos.findClosestByPath(FIND_STRUCTURES, { filter: s => (s.structureType == STRUCTURE_STORAGE || s.structureType == STRUCTURE_CONTAINER) && s.store[RESOURCE_ENERGY] > 100 });
-    let droppedEnergy = this.pos.findClosestByPath(FIND_DROPPED_ENERGY, {filter: e => e.amount > 100 });
+    let droppedEnergy = this.pos.findClosestByPath(FIND_DROPPED_RESOURCES, {filter: e => e.amount > 100 });
 
     if(droppedEnergy != undefined) {
         if (this.pickup(droppedEnergy) == ERR_NOT_IN_RANGE) {
