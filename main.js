@@ -53,8 +53,10 @@ module.exports.loop = function () {
     if (harvesters == 0 && (miners == 0 || carriers == 0)) {
         if(miners > 0) {
             newName = spawn.createCarrier(spawn.room.energyAvailable);
+            console.log("Setting Carrier to Spawn");
         } else {
-            newName = spawn.createCustomCreep(spawn.room.energyAvailable, 'harvester');
+            newName = spawn.createCustomCreep(spawn.room.energyAvailable, 'harvester', HOME);
+             console.log("Setting Harvester to Spawn");
         }
         console.log('** Recovery mode activated! **')
     } 
@@ -65,6 +67,7 @@ module.exports.loop = function () {
                 let containers = source.pos.findInRange(FIND_STRUCTURES, 1, { filter: s => s.structureType == STRUCTURE_CONTAINER });
                 if(containers.length > 0) {
                     newName = spawn.createMiner(energy, source.id);
+                    console.log("Setting Miner to Spawn");
                     break;
                 }
             }
@@ -82,6 +85,7 @@ module.exports.loop = function () {
                     let container = containers[0];
                     if(!_.some(creepsInRoom, c => c.memory.role == 'carrier' && c.memory.containerID == container.id)) {
                         newName = spawn.createCarrier(300, container.id);
+                        console.log("Setting carrier to Spawn");
                     }
                 }
             }
@@ -99,6 +103,7 @@ module.exports.loop = function () {
                 //console.log("defenders for room " + spawn.memory.externalRooms[i] + ": " + defenders);
                 if (defenders.length < 1) {
                     newName = spawn.createDefender(energy, spawn.memory.externalRooms[i]);
+                    console.log("Setting defender to spawn");
                 }
             } 
         } 
@@ -108,17 +113,22 @@ module.exports.loop = function () {
                 var claimers = _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer' && creep.memory.target == spawn.memory.externalRooms[i]);
                 if (healers.length < 0) {
                     newName = spawn.createHealer(energy, spawn.memory.externalRooms[i]);
+                    console.log("Setting healer to spawn");
                 } else if (claimers.length < 1) {
                     newName = spawn.createClaimer(spawn.memory.externalRooms[i]);
+                    console.log("Setting claimer to spawn");
                 }
             } 
         }
         if (repairers.length < 2 && newName == undefined){
             newName = spawn.createCustomCreep(energy, 'repairer', HOME);
+            console.log("Setting repairer to spawn");
         } else if (wallrepairers.length < spawn.memory.wallrepairers){
             newName = spawn.createCustomCreep(energy, 'wallrepairer', HOME);
+            console.log("Setting wallrepairer to spawn");
         } else if (builders.length < spawn.memory.builders){ // TODO: Spawn only builders when there are construction sites in the room.
             newName = spawn.createCustomCreep(energy, 'builder', HOME);
+            console.log("Setting builders to spawn");
         }
     }
     
