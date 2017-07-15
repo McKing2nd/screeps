@@ -123,10 +123,10 @@ module.exports.loop = function () {
         if (repairers.length < 2 && newName == undefined){
             newName = spawn.createCustomCreep(energy, 'repairer', HOME);
             console.log("Setting repairer to spawn");
-        } else if (wallrepairers.length < spawn.memory.wallrepairers){
+        } else if (wallrepairers.length < spawn.memory.wallrepairers && newName == undefined){
             newName = spawn.createCustomCreep(energy, 'wallrepairer', HOME);
             console.log("Setting wallrepairer to spawn");
-        } else if (builders.length < spawn.memory.builders){ // TODO: Spawn only builders when there are construction sites in the room.
+        } else if (builders.length < spawn.memory.builders && newName == undefined){ // TODO: Spawn only builders when there are construction sites in the room.
             newName = spawn.createCustomCreep(energy, 'builder', HOME);
             console.log("Setting builders to spawn");
         }
