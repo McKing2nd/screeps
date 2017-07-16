@@ -20,9 +20,8 @@ module.exports.loop = function () {
     });
     
     for (let tower of towers) {
-        if(!tower.defend()) {
-            tower.healClosest();
-            //tower.repairClosest();
+        if(!tower.defend() && !tower.healClosest()) {
+            tower.repairClosest();
         } else {
             console.log('We are under attack!');
         }
@@ -117,7 +116,7 @@ module.exports.loop = function () {
                 }
             } 
         }
-        if (repairers.length < 2 && newName == undefined){
+        if (towers.length < 1 && repairers.length < 2 && newName == undefined){
             newName = spawn.createCustomCreep(energy, 'repairer', HOME);
         } else if (wallrepairers.length < spawn.memory.wallrepairers && newName == undefined){
             newName = spawn.createCustomCreep(energy, 'wallrepairer', HOME);
