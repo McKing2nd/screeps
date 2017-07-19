@@ -4,7 +4,7 @@ require('prototype.tower');
 var HOME = 'E98S83';
 // Any modules that you use that modify the game's prototypes should be require'd
 // before you require the profiler.
-const profiler = require('screeps-profiler');
+const profiler = require('profiler');
 
 // This line monkey patches the global prototypes.
 profiler.enable();
