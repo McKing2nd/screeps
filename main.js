@@ -87,7 +87,7 @@ module.exports.loop = function () {
                     if (containers.length > 0) {
                         let container = containers[0];
                         if (!_.some(creepsInRoom, c => c.memory.role == 'carrier' && c.memory.containerID == container.id)) {
-                            newName = spawn.createCarrier(300, container.id, HOME, HOME);
+                            newName = spawn.createCarrier(450, container.id, HOME, HOME);
                             break;
                         }
                     }
