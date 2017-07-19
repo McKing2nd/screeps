@@ -53,7 +53,7 @@ StructureSpawn.prototype.createMiner = function (energy, sourceID) {
     return this.createCreep(body, undefined, { role: 'miner', sourceID: sourceID });
 }
 
-StructureSpawn.prototype.createCarrier = function (energy, objectID) {
+StructureSpawn.prototype.createCarrier = function (energy, objectID, home, target) {
     var body = [];
     var numberOfParts = Math.floor(energy / 150);
     for (let i = 0; i < numberOfParts * 2; i++) {
@@ -67,7 +67,9 @@ StructureSpawn.prototype.createCarrier = function (energy, objectID) {
     return this.createCreep(body, undefined, {
         role: 'carrier',
         containerID: objectID,
-        working: false
+        working: false,
+        home: home,
+        target: target
     });
 }
 

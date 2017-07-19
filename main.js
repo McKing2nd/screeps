@@ -80,7 +80,7 @@ module.exports.loop = function () {
                 if (containers.length > 0) {
                     let container = containers[0];
                     if (!_.some(creepsInRoom, c => c.memory.role == 'carrier' && c.memory.containerID == container.id)) {
-                        newName = spawn.createCarrier(300, container.id);
+                        newName = spawn.createCarrier(300, container.id, HOME, HOME);
                         break;
                     }
                 }
@@ -96,9 +96,13 @@ module.exports.loop = function () {
         if (spawn.memory.externalRooms != undefined && spawn.memory.externalRooms.length > 0 && newName == undefined) {
             for (var i = 0; i < spawn.memory.externalRooms.length; i++) {
                 var defenders = _.filter(Game.creeps, (creep) => creep.memory.role == 'defender' && creep.memory.target == spawn.memory.externalRooms[i]);
+                var carriersExtern = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.memory.target == spawn.memory.externalRooms[i]);
                 //console.log("defenders for room " + spawn.memory.externalRooms[i] + ": " + defenders);
                 if (defenders.length < 1) {
                     newName = spawn.createDefender(energy, spawn.memory.externalRooms[i]);
+                    break;
+                } else if (carriersExtern.length < 1) {
+                    newName = spawn.createCarrier(energy, null, HOME, spawn.memory.externalRooms[i]);
                     break;
                 }
             }
@@ -110,7 +114,7 @@ module.exports.loop = function () {
                 if (healers.length < 0) {
                     newName = spawn.createHealer(energy, spawn.memory.externalRooms[i]);
                     break;
-                } else if (claimers.length < 1) {
+                } else if (claimers.length < 0) {
                     newName = spawn.createClaimer(spawn.memory.externalRooms[i]);
                     break;
                 }
