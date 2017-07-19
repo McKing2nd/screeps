@@ -9,14 +9,14 @@ StructureTower.prototype.defend = function() {
 
 StructureTower.prototype.repairClosest = function() {
     var structure = this.pos.findClosestByRange(FIND_STRUCTURES, {
-        filter: (s) => s.hits < (s.hitsMax - (s.hitsMax * .1)) && s.structureType != STRUCTURE_WALL
+        filter: (s) => s.hits < (s.hitsMax - (s.hitsMax * .1)) && s.structureType != STRUCTURE_WALL && s.structureType != STRUCTURE_RAMPART
     });
 
     if (structure != undefined) {
         this.repair(structure);
         return true;
     }
-    return false;
+    return repairRampart();
 }
 
 StructureTower.prototype.healClosest = function() {
@@ -25,6 +25,18 @@ StructureTower.prototype.healClosest = function() {
             });
     if (target != undefined) {
         this.heal(target);
+        return true;
+    }
+    return false;
+}
+
+StructureTower.prototype.repairRampart = function() {
+    var structure = this.pos.findClosestByRange(FIND_STRUCTURES, {
+        filter: (s) => s.hits < (s.hitsMax - (s.hitsMax * .1)) &&  s.structureType == STRUCTURE_RAMPART
+    });
+
+    if (structure != undefined) {
+        this.repair(structure);
         return true;
     }
     return false;
