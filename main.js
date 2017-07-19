@@ -95,7 +95,7 @@ module.exports.loop = function () {
             } else if (upgraders.length < spawn.memory.upgraders) { // TODO: Build something so we can make it easier to Push levels.
                 newName = spawn.createUpgrader(energy, HOME);
             } else if (harvestersE97S83.length < 1) {
-                newName = spawn.createLongDistanceHarvester(energy, 5, HOME, 'E98S83', 0);
+                newName = spawn.createLongDistanceHarvester(energy, 5, HOME, 'E97S83', 0);
                 //} else if (harvestersE97S33.length < 3) {
                 //    newName = spawn.createLongDistanceHarvester(energy, 5, HOME, 'E97S33', -1);
             }
