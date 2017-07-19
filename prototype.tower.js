@@ -16,7 +16,8 @@ StructureTower.prototype.repairClosest = function() {
         this.repair(structure);
         return true;
     }
-    return this.repairRampart();
+    //return this.repairRampart();
+    return false
 }
 
 StructureTower.prototype.healClosest = function() {
