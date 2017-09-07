@@ -42,8 +42,8 @@ module.exports.loop = function () {
         var miners = _.filter(creepsInRoom, (creep) => creep.memory.role == 'miner');
         var carriers = _.filter(creepsInRoom, (creep) => creep.memory.role == 'carrier');
 
-        var claimersE97S83 = _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer' && creep.memory.target == 'E97S83');
-        var harvestersE97S83 = _.filter(Game.creeps, (creep) => creep.memory.role == 'longDistanceHarvester' && creep.memory.target == 'E97S83');
+        //var claimersE97S83 = _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer' && creep.memory.target == 'E97S83');
+        //var harvestersE97S83 = _.filter(Game.creeps, (creep) => creep.memory.role == 'longDistanceHarvester' && creep.memory.target == 'E97S83');
 
         //var harvestersE97S33 = _.filter(Game.creeps, (creep) => creep.memory.role == 'longDistanceHarvester' && creep.memory.target == 'E97S33');
         //var claimersE97S33 =  _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer' && creep.memory.target == 'E97S33');
@@ -92,8 +92,8 @@ module.exports.loop = function () {
                 }
             } else if (upgraders.length < spawn.memory.upgraders) { // TODO: Build something so we can make it easier to Push levels.
                 newName = spawn.createUpgrader(energy, HOME);
-            } else if (harvestersE97S83.length < 1) {
-                newName = spawn.createLongDistanceHarvester(energy, 5, HOME, 'E97S83', 0);
+            //} else if (harvestersE97S83.length < 1) {
+            //    newName = spawn.createLongDistanceHarvester(energy, 5, HOME, 'E97S83', 0);
                 //} else if (harvestersE97S33.length < 3) {
                 //    newName = spawn.createLongDistanceHarvester(energy, 5, HOME, 'E97S33', -1);
             }
