@@ -1,7 +1,7 @@
 require('prototype.spawn');
 require('prototype.creep');
 require('prototype.tower');
-var HOME = 'E98S83';
+var HOME = 'W49S12';
 // Any modules that you use that modify the game's prototypes should be require'd
 // before you require the profiler.
 const profiler = require('profiler');
