@@ -5,7 +5,7 @@ var HOME = Game.spawns['Spawn1'].memory.home;
 
 
 module.exports.loop = function () {
-
+    console.log('This is a test!');
     for (var name in Memory.creeps) {
         if (!Game.creeps[name]) {
             delete Memory.creeps[name];

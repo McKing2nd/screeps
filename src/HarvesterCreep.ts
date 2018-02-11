@@ -1,15 +1,18 @@
-var roleUpgrader =require('role.upgrader');
+import { MyCreep } from './MyCreep'
 
-module.exports = {
-    run: function(creep) {
+var roleUpgrader = require('role.upgrader');
+
+export class Harvester extends MyCreep { 
+    
+    run(creep: MyCreep): void {
         if (creep.isWorking()) {
-            var structure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
+            var structure:OwnedStructure = creep.pos.findClosestByPath(FIND_MY_STRUCTURES, {
                 filter: (s) => (s.structureType == STRUCTURE_SPAWN
                              || s.structureType == STRUCTURE_EXTENSION
                              || s.structureType == STRUCTURE_TOWER)
                              && s.energy < s.energyCapacity
             });
-            if (structure == undefined) {
+            if (structure === undefined && creep.room.storage != undefined ) {
                 structure = creep.room.storage;
             }
             
@@ -23,9 +26,6 @@ module.exports = {
         }
         else {
             var source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
-            if (source == undefined) {
-                source = creep.room.storage;
-            }
             if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(source);
             }
