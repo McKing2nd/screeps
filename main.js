@@ -2,6 +2,8 @@ require('prototype.spawn');
 require('prototype.creep');
 require('prototype.tower');
 var HOME = Game.spawns['Spawn1'].memory.home;
+
+
 module.exports.loop = function () {
 
     for (var name in Memory.creeps) {
@@ -37,6 +39,7 @@ module.exports.loop = function () {
 
     //var claimersE97S83 = _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer' && creep.memory.target == 'E97S83');
     //var harvestersE97S83 = _.filter(Game.creeps, (creep) => creep.memory.role == 'longDistanceHarvester' && creep.memory.target == 'E97S83');
+
 
     //var harvestersE97S33 = _.filter(Game.creeps, (creep) => creep.memory.role == 'longDistanceHarvester' && creep.memory.target == 'E97S33');
     //var claimersE97S33 =  _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer' && creep.memory.target == 'E97S33');
