@@ -16,4 +16,5 @@ interface CreepMemory {
     role: string
     working: boolean
     target: string
+    sourceID: string
 }
