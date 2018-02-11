@@ -116,8 +116,8 @@ StructureSpawn.prototype.createHealer = function (energy, target) {
 }
 
 StructureSpawn.prototype.createUpgrader = function (energy, target) {
+    var body = [];
     if (energy >= 450) {
-        var body = [];
         var numberOfParts = Math.floor(energy / 450);
         for (let i = 0; i < numberOfParts * 3; i++) {
             body.push(WORK);
