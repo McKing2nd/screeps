@@ -1,6 +1,9 @@
 import { Builder } from "./BuilderRole";
 import { Carrier } from "./CarrierRole";
+import { Claimer } from "./ClaimerRole";
+import { Defender } from "./DefenderRole";
 import { Harvester } from "./HarvesterCreepRole";
+import { Miner } from "./MinerCreepRole";
 
 export abstract class MyCreep {
 
@@ -14,14 +17,23 @@ export abstract class MyCreep {
         let myCreep: MyCreep | null = null;
 
         switch (creep.memory.role) {
-            case "Harvester":
-                myCreep = new Harvester(creep);
+            case "Builder":
+                myCreep = new Builder(creep);
                 break;
             case "Carrier":
                 myCreep = new Carrier(creep);
                 break;
-            case "Builder":
-                myCreep = new Builder(creep);
+            case "Claimer":
+                myCreep = new Claimer(creep);
+                break;
+            case "Defender":
+                myCreep = new Defender(creep);
+                break;
+            case "Harvester":
+                myCreep = new Harvester(creep);
+                break;
+            case "Miner":
+                myCreep = new Miner(creep);
                 break;
         }
         return myCreep;
