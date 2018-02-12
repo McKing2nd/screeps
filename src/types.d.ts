@@ -1,26 +1,26 @@
 // type shim for nodejs' `require()` syntax
 declare const require: (module: string) => any;
 
-//** Memory declarations *//
+// ** Memory declarations ** //
 
 interface SpawnMemory {
-    home: string
-    upgraders: number
-    buiders: number
-    repairers: number
-    wallrepairers: number
-    externalRooms: string[]
+    home: string;
+    upgraders: number;
+    buiders: number;
+    repairers: number;
+    wallrepairers: number;
+    externalRooms: string[];
 }
 
 interface CreepMemory {
-    role: string
-    working: boolean
-    target: string
-    sourceID: string
-    exit: string | undefined
-    home: string
+    role: string;
+    working: boolean;
+    target: string;
+    sourceID: string;
+    exit: string | undefined;
+    home: string;
 }
 
 interface RoomMemory {
-    wait: boolean
+    wait: boolean;
 }

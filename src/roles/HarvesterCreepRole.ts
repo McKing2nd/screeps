@@ -1,6 +1,6 @@
-import { MyCreep } from './CreepRole'
+import { MyCreep } from "./CreepRole";
 
-var roleUpgrader = require('role.upgrader');
+const roleUpgrader = require("role.upgrader");
 
 export class Harvester extends MyCreep { 
     
