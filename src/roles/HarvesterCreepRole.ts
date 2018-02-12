@@ -1,4 +1,4 @@
-import { MyCreep } from './MyCreep'
+import { MyCreep } from './CreepRole'
 
 var roleUpgrader = require('role.upgrader');
 
