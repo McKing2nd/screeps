@@ -1,39 +1,69 @@
- 
-export abstract class MyCreep extends Creep  {
+import { Harvester } from "./HarvesterCreepRole";
 
+export abstract class MyCreep {
 
-    getEnergy(): void  {
-        let container = this.pos.findClosestByPath(FIND_STRUCTURES, { filter: s => (s.structureType == STRUCTURE_STORAGE || s.structureType == STRUCTURE_CONTAINER) && s.store[RESOURCE_ENERGY] > 100 });
-        let droppedEnergy = this.pos.findClosestByPath(FIND_DROPPED_RESOURCES, {filter: e => e.amount > 100 });
+    protected creep: Creep;
+    protected exit: ScreepsReturnCode | ExitConstant | undefined;
+    protected home: string;
+    protected containerID: string;
+    protected target: string;
 
-        if(droppedEnergy != undefined) {
-            if (this.pickup(droppedEnergy) == ERR_NOT_IN_RANGE) {
-                this.moveTo(droppedEnergy);
+    public static newFor(creep: Creep): MyCreep | null {
+        let myCreep: MyCreep | null = null;
+
+        switch (creep.memory.role) {
+            case "Harvester":
+            myCreep = new Harvester(creep);
+            break;
+
+        }
+        return myCreep;
+    }
+
+    public constructor(creep: Creep) {
+        this.creep = creep;
+        this.exit = creep.memory.exit;
+        this.home = creep.memory.home;
+        this.containerID = creep.memory.containerID;
+        this.target = creep.memory.target;
+    }
+
+    protected getEnergy(): void {
+        const container = this.creep.pos.findClosestByPath(FIND_STRUCTURES, {
+            filter: (s) => (s.structureType === STRUCTURE_STORAGE || s.structureType === STRUCTURE_CONTAINER)
+                && s.store[RESOURCE_ENERGY] > 100
+        });
+        const droppedEnergy = this.creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES,
+                { filter: (e) => e.amount > 100 });
+
+        if (droppedEnergy !== undefined) {
+            if (this.creep.pickup(droppedEnergy) === ERR_NOT_IN_RANGE) {
+                this.creep.moveTo(droppedEnergy);
             }
-        } else if (container != undefined) {
-            if (this.withdraw(container, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                this.moveTo(container);
+        } else if (container !== undefined) {
+            if (this.creep.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
+                this.creep.moveTo(container);
             }
         } else {
-            var source = this.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
-            if (this.harvest(source) == ERR_NOT_IN_RANGE) {
-                this.moveTo(source);
+            const source = this.creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
+            if (this.creep.harvest(source) === ERR_NOT_IN_RANGE) {
+                this.creep.moveTo(source);
             }
         }
     }
 
-    isWorking(): boolean {
-        if (this.memory.working && this.carry.energy == 0) {
-            this.memory.working = false;
-        }  else if (!this.memory.working && this.carry.energy == this.carryCapacity) {
-            this.memory.working = true;
+    public isWorking(): boolean {
+        if (this.creep.memory.working && this.creep.carry.energy === 0) {
+            this.creep.memory.working = false;
+        } else if (!this.creep.memory.working && this.creep.carry.energy === this.creep.carryCapacity) {
+            this.creep.memory.working = true;
         }
-        return this.memory.working;
+        return this.creep.memory.working;
     }
 
-    work (): void {
-        this.run(this);
+    public work(): void {
+        this.run();
     }
 
-    run(creep: MyCreep): void {}
+    public abstract run(): void;
 }

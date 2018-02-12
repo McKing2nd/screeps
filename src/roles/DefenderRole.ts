@@ -1,24 +1,24 @@
-import { MyCreep } from './CreepRole'
+import { MyCreep } from "./CreepRole";
 
 export class Defender extends MyCreep {
-    run(creep: MyCreep): void {
-        if (creep.room.name == creep.memory.target || creep.room.memory.wait) {
-            var target: Creep = creep.pos.findClosestByPath(FIND_HOSTILE_CREEPS);
-            if (target != undefined) {
-                if (creep.attack(target) != OK) {
-                    creep.moveTo(target);
+    public run(): void {
+        if (this.creep.room.name === this.creep.memory.target || this.creep.room.memory.wait) {
+            const target: Creep = this.creep.pos.findClosestByPath(FIND_HOSTILE_CREEPS);
+            if (target !== undefined) {
+                if (this.creep.attack(target) !== OK) {
+                    this.creep.moveTo(target);
                 }
             } else {
-                var flag: Flag = creep.pos.findClosestByRange(FIND_FLAGS, {
-                    filter: (f) => f.color == COLOR_WHITE
+                const flag: Flag = this.creep.pos.findClosestByRange(FIND_FLAGS, {
+                    filter: (f) => f.color === COLOR_WHITE
                 });
-                if (flag != undefined) {
-                    creep.moveTo(flag);
+                if (flag !== undefined) {
+                    this.creep.moveTo(flag);
                 }
             }
         } else {
-            var exit:  ScreepsReturnCode | ExitConstant  = creep.room.findExitTo(creep.memory.target);
-            creep.moveTo(creep.pos.findClosestByPath(exit as ExitConstant));
+            const exit: ScreepsReturnCode | ExitConstant  = this.creep.room.findExitTo(this.creep.memory.target);
+            this.creep.moveTo(this.creep.pos.findClosestByPath(exit as ExitConstant));
         }
     }
-};
+}
