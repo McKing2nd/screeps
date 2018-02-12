@@ -1,3 +1,5 @@
+import { Builder } from "./BuilderRole";
+import { Carrier } from "./CarrierRole";
 import { Harvester } from "./HarvesterCreepRole";
 
 export abstract class MyCreep {
@@ -13,9 +15,14 @@ export abstract class MyCreep {
 
         switch (creep.memory.role) {
             case "Harvester":
-            myCreep = new Harvester(creep);
-            break;
-
+                myCreep = new Harvester(creep);
+                break;
+            case "Carrier":
+                myCreep = new Carrier(creep);
+                break;
+            case "Builder":
+                myCreep = new Builder(creep);
+                break;
         }
         return myCreep;
     }
