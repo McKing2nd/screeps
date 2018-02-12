@@ -17,4 +17,10 @@ interface CreepMemory {
     working: boolean
     target: string
     sourceID: string
+    exit: string | undefined
+    home: string
+}
+
+interface RoomMemory {
+    wait: boolean
 }

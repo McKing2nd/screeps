@@ -5,8 +5,8 @@ export class Builder extends MyCreep {
     run(creep: MyCreep): void {
 
         if(creep.memory.role =='builder' && creep.memory.target != undefined && creep.room.name != creep.memory.target) {
-            var exit: Room = creep.room.findExitTo<Room>(creep.memory.target);
-            creep.moveTo(creep.pos.findClosestByPath(exit));
+            const exit: ScreepsReturnCode | ExitConstant = creep.room.findExitTo(creep.memory.target);
+            creep.moveTo(creep.pos.findClosestByPath(exit as ExitConstant));
         } else {
             if(creep.isWorking()) {
                 var targets: ConstructionSite[] = creep.room.find(FIND_CONSTRUCTION_SITES);
