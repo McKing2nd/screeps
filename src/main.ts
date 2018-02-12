@@ -1,71 +1,76 @@
-import { ErrorMapper } from "utils/ErrorMapper";
-import { MyCreep } from "MyCreep";
+import { MyCreep } from "./roles/CreepRole";
+import { ErrorMapper } from "./utils/ErrorMapper";
 
-require('prototype.spawn');
-require('prototype.creep');
-require('prototype.tower');
-var HOME = Game.spawns['Spawn1'].memory.home;
+// tslint:disable-next-line:no-var-requires
+require("../prototype.spawn");
+// tslint:disable-next-line:no-var-requires
+require("../prototype.tower");
 
+const SPAWN_NAME = "Spawn1";
+const HOME = Game.spawns[SPAWN_NAME].memory.home;
 
 export const loop = ErrorMapper.wrapLoop(() => {
-    console.log('This is a test!');
-    for (var name in Memory.creeps) {
+    console.log("This is a test!");
+    for (const name in Memory.creeps) {
         if (!Game.creeps[name]) {
             delete Memory.creeps[name];
-            console.log('Clearing non-existing creep memory:', name);
+            console.log("Clearing non-existing creep memory:", name);
         }
     }
 
-    let spawn = Game.spawns['Spawn1'];
+    const spawn = Game.spawns[SPAWN_NAME];
 
-    var towers = spawn.room.find(FIND_STRUCTURES, {
-        filter: (s) => s.structureType == STRUCTURE_TOWER
+    const towers = spawn.room.find<StructureTower>(FIND_STRUCTURES, {
+        filter: (s) => s.structureType === STRUCTURE_TOWER
     });
 
-    for (let tower of towers) {
+    for (const tower of towers) {
         if (!tower.defend() && !tower.healClosest()) {
             tower.repairClosest();
         } else {
-            console.log('We are under attack!');
+            console.log("We are under attack!");
         }
     }
 
-    let creepsInRoom = spawn.room.find(FIND_MY_CREEPS);
+    const creepsInRoom = spawn.room.find(FIND_MY_CREEPS);
 
-    var harvesters = _.filter(creepsInRoom, (creep) => creep.memory.role == 'harvester');
-    var upgraders = _.filter(creepsInRoom, (creep) => creep.memory.role == 'upgrader');
-    var builders = _.filter(creepsInRoom, (creep) => creep.memory.role == 'builder');
-    var repairers = _.filter(creepsInRoom, (creep) => creep.memory.role == 'repairer');
-    var wallrepairers = _.filter(creepsInRoom, (creep) => creep.memory.role == 'wallrepairer');
-    var miners = _.filter(creepsInRoom, (creep) => creep.memory.role == 'miner');
-    var carriers = _.filter(creepsInRoom, (creep) => creep.memory.role == 'carrier');
+    const harvesters = _.filter(creepsInRoom, (creep) => creep.memory.role === "harvester");
+    const upgraders = _.filter(creepsInRoom, (creep) => creep.memory.role === "upgrader");
+    const builders = _.filter(creepsInRoom, (creep) => creep.memory.role === "builder");
+    const repairers = _.filter(creepsInRoom, (creep) => creep.memory.role === "repairer");
+    const wallrepairers = _.filter(creepsInRoom, (creep) => creep.memory.role === "wallrepairer");
+    const miners = _.filter(creepsInRoom, (creep) => creep.memory.role === "miner");
+    const carriers = _.filter(creepsInRoom, (creep) => creep.memory.role === "carrier");
 
-    //var claimersE97S83 = _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer' && creep.memory.target == 'E97S83');
-    //var harvestersE97S83 = _.filter(Game.creeps, (creep) => creep.memory.role == 'longDistanceHarvester' && creep.memory.target == 'E97S83');
+    // const claimersE97S83 = _.filter(Game.creeps, (creep) => creep.memory.role === "claimer"
+    //     && creep.memory.target === "E97S83");
+    // const harvestersE97S83 = _.filter(Game.creeps, (creep) => creep.memory.role === "longDistanceHarvester"
+    //     && creep.memory.target === "E97S83");
 
+    // const harvestersE97S33 = _.filter(Game.creeps, (creep) => creep.memory.role === "longDistanceHarvester"
+    //     && creep.memory.target === "E97S33");
+    // const claimersE97S33 = _.filter(Game.creeps, (creep) => creep.memory.role === "claimer"
+    //     && creep.memory.target === "E97S33");
 
-    //var harvestersE97S33 = _.filter(Game.creeps, (creep) => creep.memory.role == 'longDistanceHarvester' && creep.memory.target == 'E97S33');
-    //var claimersE97S33 =  _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer' && creep.memory.target == 'E97S33');
-
-    var energy = spawn.room.energyCapacityAvailable;
-    var newName = undefined;
+    const energy = spawn.room.energyCapacityAvailable;
+    let newName;
 
     // TODO Sources wijzigen niet, dus die kunnen we ook in memory plaatsen van de spawn
-    let sources = spawn.room.find(FIND_SOURCES);
+    const sources = spawn.room.find(FIND_SOURCES);
 
-    if (harvesters.length == 0 && (miners.length == 0 || carriers.length == 0)) {
+    if (harvesters.length === 0 && (miners.length === 0 || carriers.length === 0)) {
         if (miners.length > 0) {
             newName = spawn.createCarrier(spawn.room.energyAvailable);
         } else {
-            newName = spawn.createCustomCreep(spawn.room.energyAvailable, 'harvester', HOME);
+            newName = spawn.createCustomCreep(spawn.room.energyAvailable, "harvester", HOME);
         }
-        console.log('** Recovery mode activated! **')
-    }
-    else {
-        for (let source of sources) {
-            if (!_.some(creepsInRoom, c => c.memory.role == 'miner' && c.memory.sourceID == source.id)) {
-                //TODO: Bad performance
-                let containers = source.pos.findInRange(FIND_STRUCTURES, 1, { filter: s => s.structureType == STRUCTURE_CONTAINER });
+        console.log("** Recovery mode activated! **");
+    } else {
+        for (const source of sources) {
+            if (!_.some(creepsInRoom, (c) => c.memory.role === "miner" && c.memory.sourceID === source.id)) {
+                // TODO: Bad performance
+                const containers = source.pos.findInRange<StructureContainer>(FIND_STRUCTURES, 1, {
+                    filter: (s) => s.structureType === STRUCTURE_CONTAINER });
                 if (containers.length > 0) {
                     newName = spawn.createMiner(energy, source.id);
                     break;
@@ -74,80 +79,93 @@ export const loop = ErrorMapper.wrapLoop(() => {
         }
     }
 
-    if (newName == undefined) {
+    if (newName === undefined) {
         if (harvesters.length < 2 && miners.length < sources.length) {
-            newName = spawn.createCustomCreep(energy, 'harvester', HOME);
+            newName = spawn.createCustomCreep(energy, "harvester", HOME);
         } else if (carriers.length < sources.length && carriers.length < miners.length) {
-            for (let source of sources) {
-                //TODO: Bad performance
-                let containers = source.pos.findInRange(FIND_STRUCTURES, 1, { filter: s => s.structureType == STRUCTURE_CONTAINER });
+            for (const source of sources) {
+                const containers = source.pos.findInRange<StructureContainer>(FIND_STRUCTURES, 1, {
+                    filter: (s) => s.structureType === STRUCTURE_CONTAINER });
                 if (containers.length > 0) {
-                    let container = containers[0];
-                    if (!_.some(creepsInRoom, c => c.memory.role == 'carrier' && c.memory.containerID == container.id)) {
+                    const container = containers[0];
+                    if (!_.some(creepsInRoom, (c) => c.memory.role === "carrier"
+                        && c.memory.containerID === container.id)) {
                         newName = spawn.createCarrier(energy, container.id, HOME, HOME);
                         break;
                     }
                 }
             }
-        } else if (upgraders.length < spawn.memory.upgraders) { // TODO: Build something so we can make it easier to Push levels.
+        } else if (upgraders.length < spawn.memory.upgraders) {
             newName = spawn.createUpgrader(energy, HOME);
-        //} else if (harvestersE97S83.length < 1) {
+        // } else if (harvestersE97S83.length < 1) {
         //    newName = spawn.createLongDistanceHarvester(energy, 5, HOME, 'E97S83', 0);
-        //} else if (harvestersE97S33.length < 3) {
+        // } else if (harvestersE97S33.length < 3) {
         //    newName = spawn.createLongDistanceHarvester(energy, 5, HOME, 'E97S33', -1);
         }
 
-        if (spawn.memory.externalRooms != undefined && spawn.memory.externalRooms.length > 0 && newName == undefined) {
-            for (var i = 0; i < spawn.memory.externalRooms.length; i++) {
-                var defenders = _.filter(Game.creeps, (creep) => creep.memory.role == 'defender' && creep.memory.target == spawn.memory.externalRooms[i]);
-                var carriersExtern = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.memory.target == spawn.memory.externalRooms[i]);
-                //console.log("defenders for room " + spawn.memory.externalRooms[i] + ": " + defenders);
+        if (spawn.memory.externalRooms !== undefined
+            && spawn.memory.externalRooms.length > 0
+            && newName === undefined) {
+            for (const room of spawn.memory.externalRooms) {
+                const defenders = _.filter(Game.creeps, (creep) => creep.memory.role === "defender"
+                    && creep.memory.target === room);
+                const carriersExtern = _.filter(Game.creeps, (creep) => creep.memory.role === "carrier"
+                    && creep.memory.target === room);
+                // console.log("defenders for room " + room + ": " + defenders);
                 if (defenders.length < 1) {
-                    newName = spawn.createDefender(energy, spawn.memory.externalRooms[i]);
+                    newName = spawn.createDefender(energy, room);
                     break;
                 } else if (carriersExtern.length < 1) {
-                    newName = spawn.createCarrier(energy, null, HOME, spawn.memory.externalRooms[i]);
+                    newName = spawn.createCarrier(energy, null, HOME, room);
                     break;
                 }
             }
         }
-        if (spawn.memory.externalRooms != undefined && spawn.memory.externalRooms.length > 0 && newName == undefined) {
-            for (var i = 0; i < spawn.memory.externalRooms.length; i++) {
-                var healers = _.filter(Game.creeps, (creep) => creep.memory.role == 'healer' && creep.memory.target == spawn.memory.externalRooms[i]);
-                var claimers = _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer' && creep.memory.target == spawn.memory.externalRooms[i]);
+        if (spawn.memory.externalRooms !== undefined
+            && spawn.memory.externalRooms.length > 0
+            && newName === undefined) {
+            for (const room of spawn.memory.externalRooms) {
+                const healers = _.filter(Game.creeps, (creep) => creep.memory.role === "healer"
+                    && creep.memory.target === room);
+                const claimers = _.filter(Game.creeps, (creep) => creep.memory.role === "claimer"
+                    && creep.memory.target === room);
                 if (healers.length < 0) {
-                    newName = spawn.createHealer(energy, spawn.memory.externalRooms[i]);
+                    newName = spawn.createHealer(energy, room);
                     break;
                 } else if (claimers.length < 0) {
-                    newName = spawn.createClaimer(spawn.memory.externalRooms[i]);
+                    newName = spawn.createClaimer(room);
                     break;
                 }
             }
         }
-        if (towers.length < 1 && repairers.length < spawn.memory.repairers && newName == undefined) {
-            newName = spawn.createCustomCreep(energy, 'repairer', HOME);
-        } else if (wallrepairers.length < spawn.memory.wallrepairers && newName == undefined) {
-            newName = spawn.createCustomCreep(energy, 'wallrepairer', HOME);
-        } else if (builders.length < spawn.memory.builders && newName == undefined) { // TODO: Spawn only builders when there are construction sites in the room.
-            newName = spawn.createCustomCreep(energy, 'builder', HOME);
+        if (towers.length < 1 && repairers.length < spawn.memory.repairers && newName === undefined) {
+            newName = spawn.createCustomCreep(energy, "repairer", HOME);
+        } else if (wallrepairers.length < spawn.memory.wallrepairers && newName === undefined) {
+            newName = spawn.createCustomCreep(energy, "wallrepairer", HOME);
+        } else if (builders.length < spawn.memory.builders && newName === undefined) {
+            newName = spawn.createCustomCreep(energy, "builder", HOME);
         }
     }
 
-    if (newName != undefined && newName != ERR_NOT_ENOUGH_ENERGY && newName != ERR_BUSY && newName != ERR_INVALID_ARGS) {
-        console.log(spawn + ': Spawning new ' + Game.creeps[newName].memory.role + ' for room ' + Game.creeps[newName].memory.target + ': ' + newName);
+    if (newName !== undefined && newName !== ERR_NOT_ENOUGH_ENERGY
+        && newName !== ERR_BUSY && newName !== ERR_INVALID_ARGS) {
+            console.log(spawn + ": Spawning new " + Game.creeps[newName].memory.role + " for room "
+                + Game.creeps[newName].memory.target + ": " + newName);
     }
 
     if (spawn.spawning) {
-        var spawningCreep = Game.creeps[spawn.spawning.name];
+        const spawningCreep = Game.creeps[spawn.spawning.name];
         spawn.room.visual.text(
             spawningCreep.memory.role,
             spawn.pos.x + 1,
             spawn.pos.y,
-            { align: 'left', opacity: 0.8 });
+            { align: "left", opacity: 0.8 });
     }
 
-    for (var name in Game.creeps) {
-        var creep: MyCreep = Game.creeps[name];
-        creep.work();
-}
-}
+    for (const name in Game.creeps) {
+        const creep: MyCreep | null = MyCreep.newFor(Game.creeps[name]);
+        if (creep !== null) {
+            creep.work();
+        }
+    }
+});
