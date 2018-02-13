@@ -6,6 +6,7 @@ import { Harvester } from "./HarvesterCreepRole";
 import { Healer } from "./HealerRole";
 import { LongDistanceHarvester } from "./LongDistanceHarvester";
 import { Miner } from "./MinerCreepRole";
+import { Repairer } from "./RepairerRole";
 
 export abstract class MyCreep {
 
@@ -42,6 +43,9 @@ export abstract class MyCreep {
                 break;
             case "Miner":
                 myCreep = new Miner(creep);
+                break;
+            case "Repairer":
+                myCreep = new Repairer(creep);
                 break;
         }
         return myCreep;
