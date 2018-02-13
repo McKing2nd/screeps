@@ -2,9 +2,9 @@ import { MyCreep } from "./roles/CreepRole";
 import { ErrorMapper } from "./utils/ErrorMapper";
 
 // tslint:disable-next-line:no-var-requires
-require("../prototype.spawn");
+require("./prototype.spawn");
 // tslint:disable-next-line:no-var-requires
-require("../prototype.tower");
+require("./prototype.tower");
 
 const SPAWN_NAME = "Spawn1";
 const HOME = Game.spawns[SPAWN_NAME].memory.home;
