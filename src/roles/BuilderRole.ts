@@ -1,5 +1,5 @@
 import { MyCreep } from "./CreepRole";
-import { Harvester } from "./HarvesterCreepRole";
+import { Upgrader } from "./UpgraderRole";
 
 export class Builder extends MyCreep {
 
@@ -19,7 +19,7 @@ export class Builder extends MyCreep {
                         this.creep.moveTo(target, { visualizePathStyle: { stroke: "#ffffff" } });
                     }
                 } else {
-                   new Harvester(this.creep).run();
+                   new Upgrader(this.creep).run();
                 }
             } else {
                 this.getEnergy();
