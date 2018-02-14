@@ -55,6 +55,7 @@ StructureSpawn.prototype.createMiner = function(energy: number, sourceID: string
     const memory: CreepMemory = {
         home: this.memory.home,
         role,
+        sourceID,
         target: this.memory.home,
         working: false
     };
