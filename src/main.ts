@@ -2,16 +2,13 @@ import { MyCreep } from "./roles/CreepRole";
 import { ScreepRoleFactory } from "./ScreepRoleFactory";
 import { ErrorMapper } from "./utils/ErrorMapper";
 
-// tslint:disable-next-line:no-var-requires
-require("./prototype.spawn");
-// tslint:disable-next-line:no-var-requires
-require("./prototype.tower");
+import "./SpawnPrototype";
+import "./TowerPrototype";
 
 const SPAWN_NAME = "Spawn1";
 const HOME = Game.spawns[SPAWN_NAME].memory.home;
 
 export const loop = ErrorMapper.wrapLoop(() => {
-    console.log("This is a test!");
     for (const name in Memory.creeps) {
         if (!Game.creeps[name]) {
             delete Memory.creeps[name];
@@ -20,6 +17,10 @@ export const loop = ErrorMapper.wrapLoop(() => {
     }
 
     const spawn = Game.spawns[SPAWN_NAME];
+
+    if (spawn.memory.initialized === undefined) {
+        spawn.init();
+    }
 
     const towers = spawn.room.find<StructureTower>(FIND_STRUCTURES, {
         filter: (s) => s.structureType === STRUCTURE_TOWER
@@ -61,7 +62,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
 
     if (harvesters.length === 0 && (miners.length === 0 || carriers.length === 0)) {
         if (miners.length > 0) {
-            newName = spawn.createCarrier(spawn.room.energyAvailable);
+            newName = spawn.createCarrier(spawn.room.energyAvailable, null, HOME, HOME);
         } else {
             newName = spawn.createCustomCreep(spawn.room.energyAvailable, "harvester", HOME);
         }

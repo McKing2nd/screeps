@@ -3,7 +3,7 @@ export abstract class MyCreep {
     protected creep: Creep;
     protected exit: ScreepsReturnCode | ExitConstant | undefined;
     protected home: string;
-    protected containerID: string;
+    protected containerID: string | undefined;
     protected target: string;
 
     public constructor(creep: Creep) {
@@ -38,7 +38,7 @@ export abstract class MyCreep {
         }
     }
 
-    public isWorking(): boolean {
+    protected isWorking(): boolean {
         if (this.creep.memory.working && this.creep.carry.energy === 0) {
             this.creep.memory.working = false;
         } else if (!this.creep.memory.working && this.creep.carry.energy === this.creep.carryCapacity) {

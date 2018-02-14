@@ -13,10 +13,10 @@ export class LongDistanceHarvester extends MyCreep {
         } else {
             if (this.creep.room.name === this.target) {
                 let source;
-                if (this.creep.memory.sourceIndex < 0) {
-                    source = this.creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
-                } else {
+                if (this.creep.memory.sourceIndex !== undefined && this.creep.memory.sourceIndex >= 0) {
                     source = this.creep.room.find(FIND_SOURCES)[this.creep.memory.sourceIndex];
+                } else {
+                    source = this.creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
                 }
                 if (this.creep.harvest(source) === ERR_NOT_IN_RANGE) {
                     this.creep.moveTo(source);

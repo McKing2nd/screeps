@@ -10,17 +10,18 @@ interface SpawnMemory {
     repairers: number;
     wallrepairers: number;
     externalRooms: string[];
+    initialized: boolean;
 }
 
 interface CreepMemory {
     role: string;
     working: boolean;
     target: string;
-    sourceID: string;
+    sourceID?: string;
     home: string;
-    containerID: string;
-    exit: ScreepsReturnCode | ExitConstant | undefined;
-    sourceIndex: number;
+    containerID?: string;
+    exit?: ScreepsReturnCode | ExitConstant | undefined;
+    sourceIndex?: number;
 }
 
 interface RoomMemory {
@@ -29,18 +30,20 @@ interface RoomMemory {
 
 // ** Temp ** //
 interface StructureSpawn {
-    createCustomCreep(energy: number, role: string, home: string): void;
-    createCarrier(energy: number): void;
-    createCarrier(energy: number, container: string | null, home: string, target: string): void;
-    createDefender(energy: number, room: string): void;
-    createUpgrader(energy: number, home: string): void;
-    createHealer(energy: number, room: string): void;
-    createMiner(energy: number, sourceID: string): void;
-    createClaimer(target: string): void;
+    createCustomCreep(energy: number, role: string, home: string): ScreepsReturnCode;
+    createCarrier(energy: number, container: string | null, home: string, target: string): ScreepsReturnCode;
+    createDefender(energy: number, room: string): ScreepsReturnCode;
+    createUpgrader(energy: number, home: string): ScreepsReturnCode;
+    createHealer(energy: number, room: string): ScreepsReturnCode;
+    createMiner(energy: number, sourceID: string): ScreepsReturnCode;
+    createClaimer(target: string): ScreepsReturnCode;
+    createLongDistanceHarvester(energy: number, numberOfWorkParts: number, home: string, target: string, sourceIndex: number): ScreepsReturnCode;
+    init(): void;
 }
 
 interface StructureTower {
     defend(): void;
     healClosest(): void;
     repairClosest(): void;
+    repairRampart(): void;
 }
