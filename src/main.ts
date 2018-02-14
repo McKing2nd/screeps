@@ -1,4 +1,5 @@
 import { MyCreep } from "./roles/CreepRole";
+import { ScreepRoleFactory } from "./ScreepRoleFactory";
 import { ErrorMapper } from "./utils/ErrorMapper";
 
 // tslint:disable-next-line:no-var-requires
@@ -163,7 +164,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
     }
 
     for (const name in Game.creeps) {
-        const creep: MyCreep | null = MyCreep.newFor(Game.creeps[name]);
+        const creep: MyCreep | null = ScreepRoleFactory.newFor(Game.creeps[name]);
         if (creep !== null) {
             creep.work();
         }

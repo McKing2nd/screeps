@@ -44,4 +44,3 @@ interface StructureTower {
     healClosest(): void;
     repairClosest(): void;
 }
-

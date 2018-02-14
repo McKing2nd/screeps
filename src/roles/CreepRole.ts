@@ -1,14 +1,3 @@
-import { Builder } from "./BuilderRole";
-import { Carrier } from "./CarrierRole";
-import { Claimer } from "./ClaimerRole";
-import { Defender } from "./DefenderRole";
-import { Harvester } from "./HarvesterCreepRole";
-import { Healer } from "./HealerRole";
-import { LongDistanceHarvester } from "./LongDistanceHarvester";
-import { Miner } from "./MinerCreepRole";
-import { Repairer } from "./RepairerRole";
-import { Upgrader } from "./UpgraderRole";
-
 export abstract class MyCreep {
 
     protected creep: Creep;
@@ -16,44 +5,6 @@ export abstract class MyCreep {
     protected home: string;
     protected containerID: string;
     protected target: string;
-
-    public static newFor(creep: Creep): MyCreep | null {
-        let myCreep: MyCreep | null = null;
-
-        switch (creep.memory.role) {
-            case "Builder":
-                myCreep = new Builder(creep);
-                break;
-            case "Carrier":
-                myCreep = new Carrier(creep);
-                break;
-            case "Claimer":
-                myCreep = new Claimer(creep);
-                break;
-            case "Defender":
-                myCreep = new Defender(creep);
-                break;
-            case "Harvester":
-                myCreep = new Harvester(creep);
-                break;
-            case "Healer":
-                myCreep = new Healer(creep);
-                break;
-            case "LongDistanceHarvester":
-                myCreep = new LongDistanceHarvester(creep);
-                break;
-            case "Miner":
-                myCreep = new Miner(creep);
-                break;
-            case "Repairer":
-                myCreep = new Repairer(creep);
-                break;
-            case "Upgrader":
-                myCreep = new Upgrader(creep);
-                break;
-        }
-        return myCreep;
-    }
 
     public constructor(creep: Creep) {
         this.creep = creep;
