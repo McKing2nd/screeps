@@ -1,7 +1,8 @@
 StructureTower.prototype.defend = function() {
     const target = this.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
-    if (target !== undefined) {
+    if (target) {
         this.attack(target);
+        console.log("attacking");
         return true;
     }
     return false;
@@ -14,7 +15,7 @@ StructureTower.prototype.repairClosest = function() {
             && s.structureType !== STRUCTURE_RAMPART
     });
 
-    if (structure !== undefined) {
+    if (structure) {
         this.repair(structure);
         return true;
     }
@@ -25,8 +26,9 @@ StructureTower.prototype.healClosest = function() {
     const target = this.pos.findClosestByRange(FIND_MY_CREEPS, {
         filter: (c) => (c.hits < c.hitsMax)
     });
-    if (target !== undefined) {
+    if (target) {
         this.heal(target);
+        console.log("Healing");
         return true;
     }
     return false;
