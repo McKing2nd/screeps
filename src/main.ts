@@ -144,7 +144,8 @@ export const loop = ErrorMapper.wrapLoop(() => {
             newName = spawn.createCustomCreep(energy, "repairer", HOME);
         } else if (wallrepairers.length < spawn.memory.wallrepairers && newName === undefined) {
             newName = spawn.createCustomCreep(energy, "wallrepairer", HOME);
-        } else if (builders.length < spawn.memory.builders && newName === undefined) {
+        } else if (spawn.room.find(FIND_CONSTRUCTION_SITES).length !== 0
+                && builders.length < spawn.memory.builders && newName === undefined) {
             newName = spawn.createCustomCreep(energy, "builder", HOME);
         }
     }
