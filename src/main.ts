@@ -149,12 +149,6 @@ export const loop = ErrorMapper.wrapLoop(() => {
         }
     }
 
-    if (newName !== undefined && newName !== ERR_NOT_ENOUGH_ENERGY
-        && newName !== ERR_BUSY && newName !== ERR_INVALID_ARGS) {
-            console.log(spawn + ": Spawning new " + Game.creeps[newName].memory.role + " for room "
-                + Game.creeps[newName].memory.target + ": " + newName);
-    }
-
     if (spawn.spawning) {
         const spawningCreep = Game.creeps[spawn.spawning.name];
         spawn.room.visual.text(

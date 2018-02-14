@@ -22,11 +22,11 @@ export abstract class MyCreep {
         const droppedEnergy = this.creep.pos.findClosestByPath(FIND_DROPPED_RESOURCES,
                 { filter: (e) => e.amount > 100 });
 
-        if (droppedEnergy !== undefined) {
+        if (droppedEnergy) {
             if (this.creep.pickup(droppedEnergy) === ERR_NOT_IN_RANGE) {
                 this.creep.moveTo(droppedEnergy);
             }
-        } else if (container !== undefined) {
+        } else if (container) {
             if (this.creep.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                 this.creep.moveTo(container);
             }
