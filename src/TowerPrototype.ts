@@ -2,7 +2,6 @@ StructureTower.prototype.defend = function() {
     const target = this.pos.findClosestByRange(FIND_HOSTILE_CREEPS);
     if (target) {
         this.attack(target);
-        console.log("attacking");
         return true;
     }
     return false;
@@ -28,7 +27,6 @@ StructureTower.prototype.healClosest = function() {
     });
     if (target) {
         this.heal(target);
-        console.log("Healing");
         return true;
     }
     return false;
