@@ -42,8 +42,8 @@ interface StructureSpawn {
 }
 
 interface StructureTower {
-    defend(): void;
-    healClosest(): void;
-    repairClosest(): void;
-    repairRampart(): void;
+    defend(): boolean;
+    healClosest(): boolean;
+    repairClosest(): boolean;
+    repairRampart(): boolean;
 }
