@@ -14,11 +14,11 @@ export class Carrier extends MyCreep {
                         && s.energy < s.energyCapacity
                 });
 
-                if (structure === undefined && this.creep.room.storage) {
+                if (!structure && this.creep.room.storage) {
                     structure = this.creep.room.storage as StructureStorage;
                 }
 
-                if (structure !== undefined) {
+                if (structure) {
                     if (this.creep.transfer(structure, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                         // move towards it
                         this.creep.moveTo(structure);
@@ -36,21 +36,22 @@ export class Carrier extends MyCreep {
                 if (this.exit !== undefined) {
                     this.exit = undefined;
                 }
-                let container;
-                if (this.containerID !== undefined
-                    && this.getContainer()
-                    && this.getContainer().store[RESOURCE_ENERGY] > 200) {
-                    container = Game.getObjectById(this.containerID);
+                let container: StructureContainer | StructureStorage | undefined | null =
+                    Game.getObjectById(this.containerID);
+                if (this.containerID
+                    && container
+                    && container.store[RESOURCE_ENERGY] > 200) {
+                    container = Game.getObjectById(this.containerID) as StructureContainer;
                 } else {
                     container = this.creep.pos.findClosestByPath(FIND_STRUCTURES, {
                         filter: (s) => s.structureType === STRUCTURE_CONTAINER
-                            && s.store[RESOURCE_ENERGY] > 200 });
+                            && s.store[RESOURCE_ENERGY] > 200 }) as StructureContainer;
                 }
 
-                if (container === undefined) {
+                if (!container) {
                     container = this.creep.room.storage;
                 }
-                if (container !== undefined) {
+                if (container) {
                     if (this.creep.withdraw(container, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                         this.creep.moveTo(container);
                     }
@@ -65,6 +66,6 @@ export class Carrier extends MyCreep {
     }
 
     private getContainer(): StructureContainer {
-        return Game.getObjectById<StructureContainer>(this.containerID) as StructureContainer;
+        return Game.getObjectById(this.containerID) as StructureContainer;
     }
 }

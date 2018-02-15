@@ -1,9 +1,9 @@
 export abstract class MyCreep {
 
     protected creep: Creep;
-    protected exit: ScreepsReturnCode | ExitConstant | undefined;
+    protected exit?: ScreepsReturnCode | ExitConstant;
     protected home: string;
-    protected containerID: string | undefined;
+    protected containerID?: string;
     protected target: string;
 
     public constructor(creep: Creep) {

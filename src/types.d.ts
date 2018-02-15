@@ -20,7 +20,7 @@ interface CreepMemory {
     sourceID?: string;
     home: string;
     containerID?: string;
-    exit?: ScreepsReturnCode | ExitConstant | undefined;
+    exit?: ScreepsReturnCode | ExitConstant ;
     sourceIndex?: number;
 }
 

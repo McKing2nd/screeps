@@ -1,5 +1,4 @@
-import { MyCreep } from "./roles/CreepRole";
-import { ScreepRoleFactory } from "./ScreepRoleFactory";
+import { RoomRunner } from "./RoomRunner";
 import { ErrorMapper } from "./utils/ErrorMapper";
 
 import "./SpawnPrototype";
@@ -21,18 +20,9 @@ export const loop = ErrorMapper.wrapLoop(() => {
     if (spawn.memory.initialized === undefined) {
         spawn.init();
     }
-
-    const towers = spawn.room.find<StructureTower>(FIND_STRUCTURES, {
-        filter: (s) => s.structureType === STRUCTURE_TOWER
-    });
-
-    for (const tower of towers) {
-        if (!tower.defend() && !tower.healClosest()) {
-            tower.repairClosest();
-        } else {
-            console.log("We are under attack!");
-        }
-    }
+    // TODO Fix so we do not need an instance
+    const roomRunner: RoomRunner = new RoomRunner(spawn.room);
+    roomRunner.run();
 
     const creepsInRoom = spawn.room.find(FIND_MY_CREEPS);
 
@@ -55,7 +45,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
     //     && creep.memory.target === "E97S33");
 
     const energy = spawn.room.energyCapacityAvailable;
-    let newName;
+    let newName: ScreepsReturnCode | null = null;
 
     // TODO Sources wijzigen niet, dus die kunnen we ook in memory plaatsen van de spawn
     const sources = spawn.room.find(FIND_SOURCES);
@@ -81,7 +71,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
         }
     }
 
-    if (newName === undefined) {
+    if (newName !== OK) {
         if (harvesters.length < 2 && miners.length < sources.length) {
             newName = spawn.createCustomCreep(energy, "harvester", HOME);
         } else if (carriers.length < sources.length && carriers.length < miners.length) {
@@ -107,7 +97,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
 
         if (spawn.memory.externalRooms !== undefined
             && spawn.memory.externalRooms.length > 0
-            && newName === undefined) {
+            && !newName) {
             for (const room of spawn.memory.externalRooms) {
                 const defenders = _.filter(Game.creeps, (creep) => creep.memory.role === "defender"
                     && creep.memory.target === room);
@@ -125,7 +115,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
         }
         if (spawn.memory.externalRooms !== undefined
             && spawn.memory.externalRooms.length > 0
-            && newName === undefined) {
+            && !newName) {
             for (const room of spawn.memory.externalRooms) {
                 const healers = _.filter(Game.creeps, (creep) => creep.memory.role === "healer"
                     && creep.memory.target === room);
@@ -140,7 +130,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
                 }
             }
         }
-        if (towers.length < 1 && repairers.length < spawn.memory.repairers && newName === undefined) {
+        if (roomRunner.getTowers().length < 1 && repairers.length < spawn.memory.repairers && newName === undefined) {
             newName = spawn.createCustomCreep(energy, "repairer", HOME);
         } else if (wallrepairers.length < spawn.memory.wallrepairers && newName === undefined) {
             newName = spawn.createCustomCreep(energy, "wallrepairer", HOME);
@@ -157,12 +147,5 @@ export const loop = ErrorMapper.wrapLoop(() => {
             spawn.pos.x + 1,
             spawn.pos.y,
             { align: "left", opacity: 0.8 });
-    }
-
-    for (const name in Game.creeps) {
-        const creep: MyCreep | null = ScreepRoleFactory.newFor(Game.creeps[name]);
-        if (creep !== null) {
-            creep.work();
-        }
     }
 });
