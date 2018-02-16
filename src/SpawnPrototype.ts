@@ -77,7 +77,7 @@ StructureSpawn.prototype.createCarrier = function(energy: number, containerID: s
         target: this.memory.home,
         working: false
     };
-    energy = Math.max(energy, 600);
+    energy = Math.min(energy, 600);
     const numberOfParts = Math.floor(energy / 150);
     for (let i = 0; i < numberOfParts * 2; i++) {
         body.push(CARRY);

@@ -103,11 +103,16 @@ export const loop = ErrorMapper.wrapLoop(() => {
                     && creep.memory.target === room);
                 const carriersExtern = _.filter(Game.creeps, (creep) => creep.memory.role === "carrier"
                     && creep.memory.target === room);
+                const harvestersExtern = _.filter(Game.creeps, (creep) => creep.memory.role === "carrier"
+                    && creep.memory.target === room);
                 // console.log("defenders for room " + room + ": " + defenders);
                 if (defenders.length < 1) {
                     newName = spawn.createDefender(energy, room);
                     break;
-                } else if (carriersExtern.length < 1) {
+                } else if (harvestersExtern.length < 2 ) {
+                    newName = spawn.createLongDistanceHarvester(energy, 5, HOME, room, -1);
+                    break;
+                } else if (carriersExtern.length < 0) {
                     newName = spawn.createCarrier(energy, null, HOME, room);
                     break;
                 }
