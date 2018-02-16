@@ -3,7 +3,7 @@ import { MyCreep } from "./CreepRole";
 export class Carrier extends MyCreep {
     public run(): void {
         if (this.isWorking()) {
-            if (this.exit !== undefined) {
+            if (this.exit) {
                 this.exit = undefined;
             }
             if (this.creep.room.name === this.home) {
@@ -25,7 +25,7 @@ export class Carrier extends MyCreep {
                     }
                 }
             } else {
-                if (this.exit === undefined) {
+                if (!this.exit) {
                     this.exit = this.creep.room.findExitTo(this.home);
                 }
                 this.creep.moveTo(this.creep.pos.findClosestByRange(this.exit as ExitConstant));
@@ -33,7 +33,7 @@ export class Carrier extends MyCreep {
 
         } else {
             if (this.creep.room.name === this.target) {
-                if (this.exit !== undefined) {
+                if (this.exit) {
                     this.exit = undefined;
                 }
                 let container: StructureContainer | StructureStorage | undefined | null =
@@ -57,7 +57,7 @@ export class Carrier extends MyCreep {
                     }
                 }
             } else {
-                if (this.exit === undefined) {
+                if (!this.exit) {
                     this.exit = this.creep.room.findExitTo(this.target);
                 }
                 this.creep.moveTo(this.creep.pos.findClosestByPath(this.exit as ExitConstant));

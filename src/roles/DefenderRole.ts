@@ -3,8 +3,11 @@ import { MyCreep } from "./CreepRole";
 export class Defender extends MyCreep {
     public run(): void {
         if (this.creep.room.name === this.creep.memory.target || this.creep.room.memory.wait) {
-            const target: Creep = this.creep.pos.findClosestByPath(FIND_HOSTILE_CREEPS);
-            if (target !== undefined) {
+            let target: Creep | Structure = this.creep.pos.findClosestByPath(FIND_HOSTILE_CREEPS);
+            if (!target) {
+                target = this.creep.pos.findClosestByPath(FIND_HOSTILE_STRUCTURES);
+            }
+            if (target) {
                 if (this.creep.attack(target) !== OK) {
                     this.creep.moveTo(target);
                 }
@@ -12,7 +15,7 @@ export class Defender extends MyCreep {
                 const flag: Flag = this.creep.pos.findClosestByRange(FIND_FLAGS, {
                     filter: (f) => f.color === COLOR_WHITE
                 });
-                if (flag !== undefined) {
+                if (flag) {
                     this.creep.moveTo(flag);
                 }
             }

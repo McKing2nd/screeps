@@ -9,11 +9,11 @@ export class Harvester extends MyCreep {
                              || s.structureType === STRUCTURE_TOWER)
                              && s.energy < s.energyCapacity
             });
-            if (structure === undefined && this.creep.room.storage !== undefined ) {
+            if (!structure && this.creep.room.storage) {
                 structure = this.creep.room.storage;
             }
 
-            if (structure !== undefined) {
+            if (structure) {
                 if (this.creep.transfer(structure, RESOURCE_ENERGY) === ERR_NOT_IN_RANGE) {
                     this.creep.moveTo(structure);
                 }

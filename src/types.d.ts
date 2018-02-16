@@ -1,6 +1,9 @@
 // type shim for nodejs' `require()` syntax
 declare const require: (module: string) => any;
 
+// ** Creeps role declarions ** //
+declare const LONG_DISTANCE_HARVESTER = "longDistanceHarvester";
+
 // ** Memory declarations ** //
 
 interface SpawnMemory {

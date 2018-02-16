@@ -6,7 +6,7 @@ export class Healer extends MyCreep {
             const target = this.creep.pos.findClosestByPath(FIND_MY_CREEPS, {
                 filter: (c) => (c.hits < c.hitsMax)
             });
-            if (target !== undefined) {
+            if (target) {
                 if (this.creep.heal(target) !== OK) {
                     this.creep.moveTo(target);
                 }
@@ -14,7 +14,7 @@ export class Healer extends MyCreep {
                const flag = this.creep.pos.findClosestByRange(FIND_FLAGS, {
                     filter: (f) => f.color === COLOR_WHITE
                 });
-               if (flag !== undefined) {
+               if (flag) {
                     this.creep.moveTo(flag);
                 }
             }

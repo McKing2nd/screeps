@@ -6,7 +6,7 @@ export class Builder extends MyCreep {
     public run(): void {
 
         if (this.creep.memory.role === "builder" &&
-            this.creep.memory.target !== undefined &&
+            this.creep.memory.target &&
             this.creep.room.name !== this.creep.memory.target) {
                 const exit: ScreepsReturnCode | ExitConstant = this.creep.room.findExitTo(this.creep.memory.target);
                 this.creep.moveTo(this.creep.pos.findClosestByPath(exit as ExitConstant));
