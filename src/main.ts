@@ -34,17 +34,17 @@ export const loop = ErrorMapper.wrapLoop(() => {
     const miners = _.filter(creepsInRoom, (creep) => creep.memory.role === "miner");
     const carriers = _.filter(creepsInRoom, (creep) => creep.memory.role === "carrier");
 
-    const energy = spawn.room.energyCapacityAvailable;
-    let newName: ScreepsReturnCode | null = null;
+    const energy = Math.min(spawn.room.energyCapacityAvailable, 2000);
+    let returnCode: ScreepsReturnCode | null = null;
 
     // TODO Sources wijzigen niet, dus die kunnen we ook in memory plaatsen van de spawn
     const sources = spawn.room.find(FIND_SOURCES);
 
     if (harvesters.length === 0 && (miners.length === 0 || carriers.length === 0)) {
         if (miners.length > 0) {
-            newName = spawn.createCarrier(spawn.room.energyAvailable, null, HOME, HOME);
+            returnCode = spawn.createCarrier(spawn.room.energyAvailable, null, HOME, HOME);
         } else {
-            newName = spawn.createCustomCreep(spawn.room.energyAvailable, "harvester", HOME);
+            returnCode = spawn.createCustomCreep(spawn.room.energyAvailable, "harvester", HOME);
         }
         console.log("** Recovery mode activated! **");
     } else {
@@ -54,16 +54,16 @@ export const loop = ErrorMapper.wrapLoop(() => {
                 const containers = source.pos.findInRange<StructureContainer>(FIND_STRUCTURES, 1, {
                     filter: (s) => s.structureType === STRUCTURE_CONTAINER });
                 if (containers.length > 0) {
-                    newName = spawn.createMiner(energy, source.id);
+                    returnCode = spawn.createMiner(energy, source.id);
                     break;
                 }
             }
         }
     }
 
-    if (newName !== OK) {
+    if (returnCode !== OK) {
         if (harvesters.length < 2 && miners.length < sources.length) {
-            newName = spawn.createCustomCreep(energy, "harvester", HOME);
+            returnCode = spawn.createCustomCreep(energy, "harvester", HOME);
         } else if (carriers.length < sources.length && carriers.length < miners.length) {
             for (const source of sources) {
                 const containers = source.pos.findInRange<StructureContainer>(FIND_STRUCTURES, 1, {
@@ -72,18 +72,18 @@ export const loop = ErrorMapper.wrapLoop(() => {
                     const container = containers[0];
                     if (!_.some(creepsInRoom, (c) => c.memory.role === "carrier"
                         && c.memory.containerID === container.id)) {
-                        newName = spawn.createCarrier(energy, container.id, HOME, HOME);
-                        break;
+                            returnCode = spawn.createCarrier(energy, container.id, HOME, HOME);
+                            break;
                     }
                 }
             }
         } else if (upgraders.length < spawn.memory.upgraders) {
-            newName = spawn.createUpgrader(energy, HOME);
+            returnCode = spawn.createUpgrader(energy, HOME);
         }
 
         if (spawn.memory.externalRooms
             && spawn.memory.externalRooms.length > 0
-            && newName !== OK) {
+            && returnCode !== OK) {
             for (const room of spawn.memory.externalRooms) {
                 const defenders = _.filter(Game.creeps, (creep) => creep.memory.role === "defender"
                     && creep.memory.target === room);
@@ -91,42 +91,42 @@ export const loop = ErrorMapper.wrapLoop(() => {
                     && creep.memory.target === room);
                 const harvestersExtern = _.filter(Game.creeps, (creep) => creep.memory.role === "longDistanceHarvester"
                     && creep.memory.target === room);
-                if (defenders.length < 1) {
-                    newName = spawn.createDefender(energy, room);
+                if (defenders.length < 0) {
+                    returnCode = spawn.createDefender(energy, room);
                     break;
                 } else if (harvestersExtern.length < 2 ) {
-                    newName = spawn.createLongDistanceHarvester(energy, 5, HOME, room, -1);
+                    returnCode = spawn.createLongDistanceHarvester(energy, 5, HOME, room, -1);
                     break;
                 } else if (carriersExtern.length < 0) {
-                    newName = spawn.createCarrier(energy, null, HOME, room);
+                    returnCode = spawn.createCarrier(energy, null, HOME, room);
                     break;
                 }
             }
         }
         if (spawn.memory.externalRooms
             && spawn.memory.externalRooms.length > 0
-            && newName !== OK) {
+            && returnCode !== OK) {
             for (const room of spawn.memory.externalRooms) {
                 const healers = _.filter(Game.creeps, (creep) => creep.memory.role === "healer"
                     && creep.memory.target === room);
                 const claimers = _.filter(Game.creeps, (creep) => creep.memory.role === "claimer"
                     && creep.memory.target === room);
                 if (healers.length < 0) {
-                    newName = spawn.createHealer(energy, room);
+                    returnCode = spawn.createHealer(energy, room);
                     break;
                 } else if (claimers.length < 1) {
-                    newName = spawn.createClaimer(room);
+                    returnCode = spawn.createClaimer(room);
                     break;
                 }
             }
         }
-        if (roomRunner.getTowers().length < 1 && repairers.length < spawn.memory.repairers && newName !== OK) {
-            newName = spawn.createCustomCreep(energy, "repairer", HOME);
-        } else if (wallrepairers.length < spawn.memory.wallrepairers && newName !== OK) {
-            newName = spawn.createCustomCreep(energy, "wallrepairer", HOME);
-        } else if (spawn.room.find(FIND_CONSTRUCTION_SITES).length !== 0
-                && builders.length < spawn.memory.builders && newName !== OK) {
-            newName = spawn.createCustomCreep(energy, "builder", HOME);
+        if (returnCode !== OK && roomRunner.getTowers().length < 1 && repairers.length < spawn.memory.repairers) {
+            returnCode = spawn.createCustomCreep(energy, "repairer", HOME);
+        } else if (returnCode !== OK && wallrepairers.length < spawn.memory.wallrepairers) {
+            returnCode = spawn.createCustomCreep(energy, "wallrepairer", HOME);
+        } else if (returnCode !== OK && spawn.room.find(FIND_CONSTRUCTION_SITES).length !== 0
+                && builders.length < spawn.memory.builders) {
+                    returnCode = spawn.createCustomCreep(energy, "builder", HOME);
         }
     }
 

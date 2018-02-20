@@ -31,6 +31,7 @@ interface RoomMemory {
     wait: boolean;
 }
 
+
 // ** Temp ** //
 interface StructureSpawn {
     createCustomCreep(energy: number, role: string, home: string): ScreepsReturnCode;
@@ -50,3 +51,27 @@ interface StructureTower {
     repairClosest(): boolean;
     repairRampart(): boolean;
 }
+
+/** State machinery **/
+declare const STATE_WORKING = 900;
+declare const STATE_MOVING_TO_TARGET = 905;
+declare const STATE_MOVING_TO_HOME = 910;
+declare const STATE_HARVESTING = 915;
+declare const STATE_GET_ENERGY = 920;
+declare const STATE_GATHERING = 925;
+
+type State = 
+    STATE_WORKING |
+    STATE_MOVING_TO_TARGET |
+    STATE_MOVING_TO_HOME |
+    STATE_HARVESTING |
+    STATE_GET_ENERGY |
+    STATE_GATHERING
+    ;
+
+type STATE_WORKING = 900;
+type STATE_MOVING_TO_TARGET = 905;
+type STATE_MOVING_TO_HOME = 910;
+type STATE_HARVESTING = 915;
+type STATE_GET_ENERGY = 920;
+type STATE_GATHERING = 925;
