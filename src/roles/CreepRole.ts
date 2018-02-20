@@ -5,6 +5,7 @@ export abstract class MyCreep {
     protected home: string;
     protected containerID?: string;
     protected target: string;
+    protected currentState: State;
 
     public constructor(creep: Creep) {
         this.creep = creep;
@@ -12,6 +13,7 @@ export abstract class MyCreep {
         this.home = creep.memory.home;
         this.containerID = creep.memory.containerID;
         this.target = creep.memory.target;
+        this.currentState = STATE_WORKING;
     }
 
     protected getEnergy(): void {
