@@ -11,7 +11,6 @@ export class RoomRunner {
 
     public run(): void {
         this.runTowers();
-        this.runCreeps();
     }
 
     private runTowers(): void {
@@ -21,15 +20,6 @@ export class RoomRunner {
                 tower.repairClosest();
             } else {
                 console.log("We are under attack!");
-            }
-        }
-    }
-
-    private runCreeps(): void {
-        for (const name in Game.creeps) {
-            const creep: MyCreep | null = ScreepRoleFactory.newFor(Game.creeps[name]);
-            if (creep !== null) {
-                creep.work();
             }
         }
     }

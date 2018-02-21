@@ -45,6 +45,9 @@ export class ScreepRoleFactory {
             case "upgrader":
                 myCreep = new Upgrader(creep);
                 break;
+            default:
+                console.log("No role found " + creep.memory.role);
+                break;
         }
         return myCreep;
     }

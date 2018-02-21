@@ -52,6 +52,21 @@ interface StructureTower {
     repairRampart(): boolean;
 }
 
+/** Creep Roles **/
+declare const ROLE_HARVESTER = "harvester";
+declare const ROLE_UPGRADER = "upgrader";
+declare const ROLE_BUILDER = "builder";
+declare const ROLE_REPAIRER = "repairer";
+declare const ROLE_WALLREPAIRER = "wallrepairer";
+declare const ROLE_MINER = "miner";
+
+type ROLE_HARVESTER = "harvester";
+type ROLE_UPGRADER = "upgrader";
+
+type CreepRole = 
+    ROLE_HARVESTER |
+    ROLE_UPGRADER;
+
 /** State machinery **/
 declare const STATE_WORKING = 900;
 declare const STATE_MOVING_TO_TARGET = 905;
@@ -59,6 +74,13 @@ declare const STATE_MOVING_TO_HOME = 910;
 declare const STATE_HARVESTING = 915;
 declare const STATE_GET_ENERGY = 920;
 declare const STATE_GATHERING = 925;
+
+type STATE_WORKING = 900;
+type STATE_MOVING_TO_TARGET = 905;
+type STATE_MOVING_TO_HOME = 910;
+type STATE_HARVESTING = 915;
+type STATE_GET_ENERGY = 920;
+type STATE_GATHERING = 925;
 
 type State = 
     STATE_WORKING |
@@ -69,9 +91,3 @@ type State =
     STATE_GATHERING
     ;
 
-type STATE_WORKING = 900;
-type STATE_MOVING_TO_TARGET = 905;
-type STATE_MOVING_TO_HOME = 910;
-type STATE_HARVESTING = 915;
-type STATE_GET_ENERGY = 920;
-type STATE_GATHERING = 925;
