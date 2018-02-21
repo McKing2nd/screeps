@@ -4,10 +4,10 @@ import { ErrorMapper } from "./utils/ErrorMapper";
 import "./SpawnPrototype";
 import "./TowerPrototype";
 
-const SPAWN_NAME = "Spawn1";
-const HOME = Game.spawns[SPAWN_NAME].memory.home;
-
 export const loop = ErrorMapper.wrapLoop(() => {
+    const SPAWN_NAME = "Spawn1";
+    const HOME = Game.spawns[SPAWN_NAME].memory.home;
+
     for (const name in Memory.creeps) {
         if (!Game.creeps[name]) {
             delete Memory.creeps[name];
