@@ -15,35 +15,38 @@ export class ScreepRoleFactory {
         let myCreep: MyCreep | null = null;
 
         switch (creep.memory.role) {
-            case "builder":
+            case MyCreep.ROLE_BUILDER:
                 myCreep = new Builder(creep);
                 break;
-            case "carrier":
+            case MyCreep.ROLE_CARRIER:
                 myCreep = new Carrier(creep);
                 break;
-            case "claimer":
+            case MyCreep.ROLE_CLAIMER:
                 myCreep = new Claimer(creep);
                 break;
-            case "defender":
+            case MyCreep.ROLE_DEFENDER:
                 myCreep = new Defender(creep);
                 break;
-            case "harvester":
+            case MyCreep.ROLE_HARVESTER:
                 myCreep = new Harvester(creep);
                 break;
-            case "healer":
+            case MyCreep.ROLE_HEALER:
                 myCreep = new Healer(creep);
                 break;
-            case "longDistanceHarvester":
+            case MyCreep.ROLE_LONGDISTANCEHARVESTER:
                 myCreep = new LongDistanceHarvester(creep);
                 break;
-            case "miner":
+            case MyCreep.ROLE_MINER:
                 myCreep = new Miner(creep);
                 break;
-            case "repairer":
+            case MyCreep.ROLE_REPAIRER:
                 myCreep = new Repairer(creep);
                 break;
-            case "upgrader":
+            case MyCreep.ROLE_UPGRADER:
                 myCreep = new Upgrader(creep);
+                break;
+            case MyCreep.ROLE_WALLREPAIRER:
+                console.log("Wallrepairer is not implemented (yet)");
                 break;
             default:
                 console.log("No role found " + creep.memory.role);

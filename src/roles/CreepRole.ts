@@ -1,5 +1,17 @@
 export abstract class MyCreep {
 
+    public static readonly ROLE_HARVESTER = "harvester";
+    public static readonly ROLE_UPGRADER = "upgrader";
+    public static readonly ROLE_BUILDER = "builder";
+    public static readonly ROLE_REPAIRER = "repairer";
+    public static readonly ROLE_WALLREPAIRER = "wallrepairer";
+    public static readonly ROLE_MINER = "miner";
+    public static readonly ROLE_CARRIER = "carrier";
+    public static readonly ROLE_CLAIMER = "claimer";
+    public static readonly ROLE_HEALER = "healer";
+    public static readonly ROLE_DEFENDER = "defender";
+    public static readonly ROLE_LONGDISTANCEHARVESTER = "longDistanceHarvester";
+
     protected creep: Creep;
     protected exit?: ScreepsReturnCode | ExitConstant;
     protected home: string;
