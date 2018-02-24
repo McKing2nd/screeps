@@ -1,4 +1,5 @@
 import { MyCreep } from "./CreepRole";
+import { Upgrader } from "./UpgraderRole";
 
 export class Harvester extends MyCreep {
     public run(): void {
@@ -18,8 +19,7 @@ export class Harvester extends MyCreep {
                     this.creep.moveTo(structure);
                 }
             } else {
-                // TODO: FIX This
-                // roleUpgrader.run(creep);
+                new Upgrader(this.creep).run();
             }
         } else {
             const source = this.creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
