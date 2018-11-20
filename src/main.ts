@@ -104,7 +104,7 @@ export const loop = ErrorMapper.wrapLoop(() => {
                     const harvestersExtern = _.filter(
                         Game.creeps, (creep) => creep.memory.role === MyCreep.ROLE_LONGDISTANCEHARVESTER
                         && creep.memory.target === room);
-                    if (defendersExtern.length < 0) {
+                    if (defendersExtern.length < 1) {
                         returnCode = spawn.createDefender(energy, room);
                         break;
                     } else if (harvestersExtern.length < 2 ) {

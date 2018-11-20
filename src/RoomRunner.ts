@@ -11,6 +11,7 @@ export class RoomRunner {
 
     public run(): void {
         this.runTowers();
+        // this.runLinks();
     }
 
     private runTowers(): void {
@@ -28,5 +29,9 @@ export class RoomRunner {
         return this.room.find<StructureTower>(FIND_STRUCTURES, {
             filter: (s) => s.structureType === STRUCTURE_TOWER
         });
+    }
+
+    private runLinks(): void {
+        // console.log("Implement me!");
     }
 }
