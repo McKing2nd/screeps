@@ -1,37 +1,29 @@
-import { MyCreep } from "./roles/CreepRole";
-import { ScreepRoleFactory } from "./ScreepRoleFactory";
-
 export class RoomRunner {
 
-    private room: Room;
+	private room: Room;
 
-    public constructor(room: Room) {
-        this.room = room;
-    }
+	constructor(room: Room) {
+		this.room = room;
+	}
 
-    public run(): void {
-        this.runTowers();
-        // this.runLinks();
-    }
+	run = () => {
+	 	this.runTowers();
+	}
 
-    private runTowers(): void {
-        const towers = this.getTowers();
-        for (const tower of towers) {
-            if (!tower.defend() && !tower.healClosest()) {
-                tower.repairClosest();
-            } else {
-                console.log("We are under attack!");
-            }
-        }
-    }
+	private runTowers(): void {
+		const towers = this.getTowers();
+		for (const tower of towers) {
+			if (!tower.defend() && !tower.healClosest()) {
+				tower.repairClosest();
+			} else {
+			}
+		}
+	}
 
-    public getTowers(): StructureTower[] {
-        return this.room.find<StructureTower>(FIND_STRUCTURES, {
-            filter: (s) => s.structureType === STRUCTURE_TOWER
-        });
-    }
+	getTowers(): StructureTower[] {
+		return this.room.find<StructureTower>(FIND_STRUCTURES, {
+			filter: (s) => s.structureType === STRUCTURE_TOWER
+		});
+	}
 
-    private runLinks(): void {
-        // console.log("Implement me!");
-    }
 }
