@@ -1,32 +1,59 @@
 "use strict";
 
-import clean from "rollup-plugin-clean";
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
+import progress from "rollup-plugin-progress";
 import typescript from "rollup-plugin-typescript2";
 import screeps from "rollup-plugin-screeps";
 
 let cfg;
-const i = process.argv.indexOf("--dest") + 1;
-if (i == 0) {
-  console.log("No destination specified - code will be compiled but not uploaded");
-} else if (i >= process.argv.length || (cfg = require("./screeps")[process.argv[i]]) == null) {
-  throw new Error("Invalid upload destination");
+const dest = process.env.DEST;
+if (!dest) {
+    console.log('\x1b[46m%s\x1b[0m \x1b[36m%s\x1b[0m', 'Compiling McScreeps...', '(deploy destination: none)');
+} else if ((cfg = require("./screeps")[dest]) == null) {
+    throw new Error("Invalid upload destination");
+} else {
+    console.log('\x1b[46m%s\x1b[0m \x1b[36m%s\x1b[0m', 'Compiling McScreeps...', `(deploy destination: ${dest})`);
 }
 
-export default {
-  input: "src/main.ts",
-  output: {
-    file: "dist/main.js",
-    format: "cjs",
-    sourcemap: true
-  },
+const ignoreWarnings = ['commonjs-proxy',
+                        'Circular dependency',
+                        "The 'this' keyword is equivalent to 'undefined'",
+                        "Use of eval is strongly discouraged"];
 
-  plugins: [
-    clean(),
-    resolve(),
-    commonjs(),
-    typescript({tsconfig: "./tsconfig.json"}),
-    screeps({config: cfg, dryRun: cfg == null})
-  ]
+export default {
+    input: "src/main.ts",
+
+    plugins: [
+        progress({clearLine: true}),
+        resolve(),
+        commonjs({
+                     namedExports: {
+                         'screeps-profiler': ['profiler'],
+                         'columnify': ['columnify']
+                     }
+                 }),
+        typescript({tsconfig: "./tsconfig.json"}),
+        screeps({config: cfg, dryRun: cfg == null})
+    ],
+
+    onwarn: function (warning) {
+        // Skip default export warnings from using obfuscated overmind file in main
+        for (let ignoreWarning of ignoreWarnings) {
+            if (warning.toString().includes(ignoreWarning)) {
+                return;
+            }
+        }
+        // console.warn everything else
+        console.warn(warning.message);
+    },
+
+    treeshake: false,
+
+    output: {
+        file: "dist/main.js",
+        format: "cjs",
+        sourcemap: false
+    },
+
 }
