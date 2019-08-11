@@ -12,6 +12,20 @@ export abstract class MyCreep {
 	static readonly ROLE_DEFENDER = 'defender';
 	static readonly ROLE_LONGDISTANCEHARVESTER = 'longDistanceHarvester';
 
+	static readonly ALL_ROLES = [
+		MyCreep.ROLE_HARVESTER,
+		MyCreep.ROLE_UPGRADER,
+		MyCreep.ROLE_BUILDER,
+		MyCreep.ROLE_REPAIRER,
+		MyCreep.ROLE_WALLREPAIRER,
+		MyCreep.ROLE_MINER,
+		MyCreep.ROLE_CARRIER,
+		MyCreep.ROLE_CLAIMER,
+		MyCreep.ROLE_HEALER,
+		MyCreep.ROLE_DEFENDER,
+		MyCreep.ROLE_LONGDISTANCEHARVESTER 
+	];
+
 	protected creep: Creep;
 	protected exit?: ScreepsReturnCode | ExitConstant;
 	protected home: string;

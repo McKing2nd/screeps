@@ -91,3 +91,6 @@ $RECYCLE.BIN/
 node_modules/
 .eslintrc.json
 .DS_Store
+
+# My plan for the future
+plan
